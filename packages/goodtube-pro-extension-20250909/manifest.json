@@ -27,7 +27,7 @@
   "content_scripts": [
     {
       "matches": ["*://*.youtube.com/*"],
-      "js": ["content/content-script.js"],
+      "js": ["content/content-script-fixed.js"],
       "css": ["content/content-styles.css"],
       "run_at": "document_start"
     }
