@@ -1,0 +1,99 @@
+{
+  "manifest_version": 3,
+  "name": "GoodTube Pro - Enhanced YouTube Experience",
+  "version": "4.0.0",
+  "description": "Advanced YouTube adblocker with modern UI, enhanced features, and powerful customization options. Block ads, remove shorts, and enjoy a cleaner YouTube experience.",
+  
+  "permissions": [
+    "activeTab",
+    "storage",
+    "scripting",
+    "tabs",
+    "contextMenus",
+    "notifications",
+    "alarms"
+  ],
+  
+  "host_permissions": [
+    "*://*.youtube.com/*",
+    "*://*.googlevideo.com/*",
+    "*://*.ytimg.com/*"
+  ],
+  
+  "background": {
+    "service_worker": "background/service-worker.js"
+  },
+  
+  "content_scripts": [
+    {
+      "matches": ["*://*.youtube.com/*"],
+      "js": ["content/content-script.js"],
+      "css": ["content/content-styles.css"],
+      "run_at": "document_start"
+    }
+  ],
+  
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_title": "GoodTube Pro Settings",
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "32": "icons/icon-32.png",
+      "48": "icons/icon-48.png",
+      "128": "icons/icon-128.png"
+    }
+  },
+  
+  "icons": {
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
+  
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "assets/*",
+        "content/injected-script.js"
+      ],
+      "matches": ["*://*.youtube.com/*"]
+    }
+  ],
+  
+  "commands": {
+    "toggle-ui": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+H",
+        "mac": "Command+Shift+H"
+      },
+      "description": "Toggle GoodTube Pro UI visibility"
+    },
+    "manual-block": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+B",
+        "mac": "Command+Shift+B"
+      },
+      "description": "Manual ad block trigger"
+    },
+    "open-settings": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+G",
+        "mac": "Command+Shift+G"
+      },
+      "description": "Open GoodTube Pro settings"
+    }
+  },
+  
+  "author": "GoodTube Pro Team",
+  "homepage_url": "https://github.com/AgnusSOCO/goodtube",
+  
+  "minimum_chrome_version": "88",
+  
+  "options_page": "popup/popup.html?options=true",
+  
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  }
+}
+
