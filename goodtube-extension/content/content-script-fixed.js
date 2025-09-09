@@ -53,6 +53,9 @@ class GoodTubeContentScript {
         console.log('🛡️ GoodTube Pro: Initializing Enhanced Version...');
         
         try {
+            // Wait for document.body to be available
+            await this.waitForDocumentBody();
+            
             await this.loadSettings();
             await this.loadStats();
             this.setupMessageListener();
@@ -66,6 +69,33 @@ class GoodTubeContentScript {
         } catch (error) {
             console.error('🛡️ GoodTube Pro: Initialization error:', error);
         }
+    }
+    
+    async waitForDocumentBody() {
+        return new Promise((resolve) => {
+            if (document.body) {
+                resolve();
+                return;
+            }
+            
+            const observer = new MutationObserver((mutations, obs) => {
+                if (document.body) {
+                    obs.disconnect();
+                    resolve();
+                }
+            });
+            
+            observer.observe(document.documentElement, {
+                childList: true,
+                subtree: true
+            });
+            
+            // Fallback timeout
+            setTimeout(() => {
+                observer.disconnect();
+                resolve();
+            }, 5000);
+        });
     }
     
     async loadSettings() {
@@ -136,11 +166,24 @@ class GoodTubeContentScript {
             console.error('GoodTube Pro: Error setting up message listener:', error);
         }
     }
-    
-    injectStyles() {
-        const style = document.createElement('style');
-        style.textContent = `
-            /* GoodTube Pro Enhanced Styles */
+       injectStyles() {
+        try {
+            // Ensure document.head exists
+            if (!document.head) {
+                console.warn('🛡️ GoodTube Pro: Document head not available, skipping styles');
+                return;
+            }
+            
+            const style = document.createElement('style');
+            style.id = 'goodtube-pro-styles';
+            
+            // Check if styles already injected
+            if (document.getElementById('goodtube-pro-styles')) {
+                return;
+            }
+            
+            style.textContent = `
+            /* GoodTube Pro Styles */
             .goodtube-hidden {
                 display: none !important;
                 visibility: hidden !important;
@@ -223,35 +266,62 @@ class GoodTubeContentScript {
             }
         `;
         document.head.appendChild(style);
+        } catch (error) {
+            console.error('🛡️ GoodTube Pro: Error injecting styles:', error);
+        }
     }
     
     createNonInvasiveUI() {
-        // Create floating button instead of invasive overlay
-        const floatingBtn = document.createElement('button');
-        floatingBtn.className = 'goodtube-floating-btn';
-        floatingBtn.innerHTML = '🛡️';
-        floatingBtn.title = 'GoodTube Pro Settings';
-        
-        floatingBtn.addEventListener('click', () => {
-            // Send message to popup to open
-            chrome.runtime.sendMessage({ action: 'openPopup' });
-        });
-        
-        document.body.appendChild(floatingBtn);
-        
-        // Hide button with keyboard shortcut
-        document.addEventListener('keydown', (e) => {
-            if (e.key.toLowerCase() === 'h' && !e.ctrlKey && !e.metaKey) {
-                if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
-                    e.preventDefault();
-                    floatingBtn.style.display = floatingBtn.style.display === 'none' ? 'flex' : 'none';
-                    this.showNotification(
-                        floatingBtn.style.display === 'none' ? 'UI Hidden (Press H to show)' : 'UI Visible',
-                        'info'
-                    );
-                }
+        try {
+            // Ensure document.body exists
+            if (!document.body) {
+                console.warn('🛡️ GoodTube Pro: Document body not available, skipping UI creation');
+                return;
             }
-        });
+            
+            // Check if UI already exists
+            if (document.querySelector('.goodtube-floating-btn')) {
+                return;
+            }
+            
+            // Create floating button instead of invasive overlay
+            const floatingBtn = document.createElement('button');
+            floatingBtn.className = 'goodtube-floating-btn';
+            floatingBtn.innerHTML = '🛡️';
+            floatingBtn.title = 'GoodTube Pro Settings';
+            
+            floatingBtn.addEventListener('click', () => {
+                try {
+                    // Send message to popup to open
+                    if (typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.sendMessage) {
+                        chrome.runtime.sendMessage({ action: 'openPopup' }).catch(() => {
+                            // Fallback: show notification if popup can't be opened
+                            this.showNotification('GoodTube Pro is active and blocking ads!', 'info');
+                        });
+                    } else {
+                        this.showNotification('GoodTube Pro is active and blocking ads!', 'info');
+                    }
+                } catch (error) {
+                    console.error('🛡️ GoodTube Pro: Error opening popup:', error);
+                    this.showNotification('GoodTube Pro is active and blocking ads!', 'info');
+                }
+            });
+            
+            document.body.appendChild(floatingBtn);
+            
+            // Keyboard shortcut to toggle UI visibility
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'h' || e.key === 'H') {
+                    const btn = document.querySelector('.goodtube-floating-btn');
+                    if (btn) {
+                        btn.style.display = btn.style.display === 'none' ? 'block' : 'none';
+                    }
+                }
+            });
+            
+        } catch (error) {
+            console.error('🛡️ GoodTube Pro: Error creating UI:', error);
+        }
     }
     
     showNotification(message, type = 'info') {
@@ -579,10 +649,25 @@ window.GoodTubeContentScript = GoodTubeContentScript;
 if (!window.goodTubePro) {
     window.goodTubePro = new GoodTubeContentScript();
     
-    // Clean up on page unload
+    // Clean up on page unload with proper error handling
     window.addEventListener('beforeunload', () => {
-        if (window.goodTubePro) {
-            window.goodTubePro.destroy();
+        try {
+            if (window.goodTubePro && typeof window.goodTubePro.destroy === 'function') {
+                window.goodTubePro.destroy();
+            }
+        } catch (error) {
+            console.debug('🛡️ GoodTube Pro: Cleanup error (safe to ignore):', error);
+        }
+    });
+    
+    // Also clean up on page hide (for better mobile support)
+    window.addEventListener('pagehide', () => {
+        try {
+            if (window.goodTubePro && typeof window.goodTubePro.destroy === 'function') {
+                window.goodTubePro.destroy();
+            }
+        } catch (error) {
+            console.debug('🛡️ GoodTube Pro: Cleanup error (safe to ignore):', error);
         }
     });
 }
