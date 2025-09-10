@@ -167,24 +167,7 @@ class GoodTubeContentScript {
                 position: relative;
             }
             
-            .goodtube-enhanced-player::before {
-                content: '🛡️ Protected by GoodTube Pro';
-                position: absolute;
-                bottom: 10px;
-                left: 10px;
-                background: rgba(0, 0, 0, 0.7);
-                color: white;
-                padding: 4px 8px;
-                border-radius: 4px;
-                font-size: 11px;
-                z-index: 100;
-                opacity: 0;
-                transition: opacity 0.3s ease;
-            }
-            
-            .goodtube-enhanced-player:hover::before {
-                opacity: 1;
-            }
+            /* REMOVED INVASIVE OVERLAY - No more "Protected by GoodTube Pro" message */
         `;
         
         document.head.appendChild(style);

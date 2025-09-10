@@ -501,28 +501,56 @@ class GoodTubeContentScript {
     blockAds() {
         let adsBlocked = 0;
         
-        // Comprehensive ad selectors including mid-roll ads
+        // Comprehensive ad selectors including mid-roll ads - ENHANCED VERSION
         const adSelectors = [
-            // Video ads
+            // Video ads - comprehensive coverage
             '.video-ads', '.ytp-ad-module', '.ytp-ad-overlay-container',
             '.ytp-ad-text-overlay', '[id^="player-ads"]', '.ytp-ad-player-overlay',
             '.ytp-ad-overlay-slot', '.ytp-ad-overlay-image', '.ytp-ad-image-overlay',
-            
-            // Mid-roll and pre-roll ads
             '.ytp-ad-preview-container', '.ytp-ad-preview-text', '.ytp-ad-preview-image',
-            '.ad-showing', '.ad-interrupting', '[class*="ad-showing"]',
+            '.ytp-ad-skip-button-container', '.ytp-ad-button-container',
+            '.ytp-ad-overlay-close-button', '.ytp-ad-visit-advertiser-button',
+            '.ytp-ad-info-button', '.ytp-ad-text',
             
-            // Sponsored content
+            // Mid-roll and pre-roll ads - enhanced detection
+            '.ad-showing', '.ad-interrupting', '[class*="ad-showing"]',
+            '.ytp-ad-overlay-duration-remaining', '.ytp-ad-overlay-instream-info',
+            
+            // Display and sidebar ads - comprehensive coverage
             '.ytd-promoted-sparkles-web-renderer', '.ytd-ad-slot-renderer',
-            '.ytd-banner-promo-renderer', 'ytd-in-feed-ad-layout-renderer',
+            '.ytd-banner-promo-renderer', '.ytd-in-feed-ad-layout-renderer',
+            '.ytd-display-ad-renderer', '.ytd-compact-promoted-item-renderer',
+            '.ytd-promoted-video-renderer', '.ytd-merch-shelf-renderer',
+            '.ytd-banner-promo-renderer-background', '.ytd-promoted-sparkles-text-search-renderer',
+            '.ytd-search-pyv-renderer', '.ytd-carousel-ad-renderer',
+            
+            // Sponsored content - enhanced detection
             '[aria-label*="Sponsored"]', '[title*="Sponsored"]',
+            '.sponsored-content', '.ad-badge', '.promo-badge',
             
             // Shopping and product ads
             '.ytd-product-details-renderer', '.ytd-shopping-carousel-renderer',
+            '.ytd-product-shelf-renderer', '.ytd-shopping-shelf-renderer',
             
-            // Generic ad containers
+            // Masthead and banner ads
+            '.ytd-rich-section-renderer[data-content-type="masthead"]',
+            '.ytd-primetime-promo-renderer', '.masthead-ad',
+            '#masthead-ad', '.masthead-ad-control',
+            
+            // Generic ad containers - enhanced coverage
             '[data-ad-slot-id]', '[id*="google_ads"]', '.googima-ad-div',
-            '[class*="advertisement"]', '[id*="advertisement"]'
+            '[class*="advertisement"]', '[id*="advertisement"]',
+            '.ad-container', '.advertisement', '.ads-wrapper', '.ad-wrapper',
+            '.google-ads', '.adsystem', '[data-google-av-cxn]',
+            '[data-google-av-cpmav]', '[data-google-av-adk]',
+            
+            // Mobile specific ads
+            '.mobile-topstories-header', '.compact-media-item-metadata-content',
+            
+            // New YouTube ad formats
+            '.ytd-statement-banner-renderer', '.ytd-brand-video-shelf-renderer',
+            '.ytd-brand-video-singleton-renderer', 'ytd-companion-slot-renderer',
+            'ytd-action-companion-ad-renderer', '.ytd-channel-renderer[is-advertisement]'
         ];
         
         // Block ads by hiding elements
@@ -536,11 +564,16 @@ class GoodTubeContentScript {
             });
         });
         
-        // Enhanced skip button detection
+        // Enhanced skip button detection - comprehensive coverage
         const skipSelectors = [
             '.ytp-ad-skip-button', '.ytp-skip-ad-button', '.ytp-ad-skip-button-modern',
+            '.ytp-ad-skip-button-container button', '.ytp-ad-skip-button-slot button',
             '[class*="skip"]', '[aria-label*="Skip"]', '[title*="Skip"]',
-            '.videoAdUiSkipButton', '.skip-button', '[data-purpose="skip-button"]'
+            '.videoAdUiSkipButton', '.skip-button', '[data-purpose="skip-button"]',
+            '.ytp-ad-skip-button-text', '.ytp-ad-skip-button-icon',
+            'button[class*="ytp-ad-skip"]', 'button[aria-label*="Skip ad"]',
+            '.ytp-ad-overlay-close-button', '.ytp-ad-visit-advertiser-button',
+            '[class*="skip-ad"]', '[id*="skip"]', '.ad-skip-button'
         ];
         
         skipSelectors.forEach(selector => {

@@ -100,31 +100,12 @@ ytd-mini-guide-entry-renderer:has([aria-label="Shorts"]),
     display: none !important;
 }
 
-/* Enhanced video player */
+/* Enhanced video player - NON-INVASIVE VERSION */
 .goodtube-enhanced-player {
     position: relative !important;
 }
 
-.goodtube-enhanced-player::after {
-    content: '🛡️ Protected by GoodTube Pro' !important;
-    position: absolute !important;
-    bottom: 10px !important;
-    left: 10px !important;
-    background: rgba(0, 0, 0, 0.7) !important;
-    color: white !important;
-    padding: 4px 8px !important;
-    border-radius: 4px !important;
-    font-size: 11px !important;
-    z-index: 100 !important;
-    opacity: 0 !important;
-    transition: opacity 0.3s ease !important;
-    pointer-events: none !important;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
-}
-
-.goodtube-enhanced-player:hover::after {
-    opacity: 1 !important;
-}
+/* REMOVED INVASIVE OVERLAY - No more "Protected by GoodTube Pro" message */
 
 /* Hide specific YouTube ad containers */
 ytd-companion-slot-renderer,
@@ -230,13 +211,6 @@ ytd-channel-renderer[is-advertisement] {
         font-size: 13px !important;
         padding: 10px 16px !important;
     }
-    
-    .goodtube-enhanced-player::after {
-        bottom: 5px !important;
-        left: 5px !important;
-        font-size: 10px !important;
-        padding: 3px 6px !important;
-    }
 }
 
 /* Dark mode enhancements */
@@ -252,18 +226,12 @@ ytd-channel-renderer[is-advertisement] {
         border: 2px solid white !important;
         background: #8B5CF6 !important;
     }
-    
-    .goodtube-enhanced-player::after {
-        background: black !important;
-        border: 1px solid white !important;
-    }
 }
 
 /* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
     .goodtube-notification,
-    .goodtube-notification.fade-out,
-    .goodtube-enhanced-player::after {
+    .goodtube-notification.fade-out {
         animation: none !important;
         transition: none !important;
     }
