@@ -14,9 +14,8 @@ RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
-NC='\033[0m' # No Color
+NC='\033[0m'
 
-# Function to print colored output
 print_status() {
     echo -e "${BLUE}[INFO]${NC} $1"
 }
@@ -55,18 +54,7 @@ sudo apt update && sudo apt upgrade -y
 
 # Install required system packages
 print_status "Installing system dependencies..."
-sudo apt install -y \
-    python3 \
-    python3-pip \
-    python3-venv \
-    nginx \
-    supervisor \
-    ufw \
-    curl \
-    wget \
-    git \
-    htop \
-    unzip
+sudo apt install -y python3 python3-pip python3-venv nginx supervisor ufw curl wget git htop unzip
 
 # Create application directory
 APP_DIR="/opt/goodtube-analytics"
@@ -179,22 +167,14 @@ sudo ufw allow 443
 print_status "Creating backup script..."
 tee $APP_DIR/backup.sh > /dev/null <<EOF
 #!/bin/bash
-# GoodTube Analytics Backup Script
-
 BACKUP_DIR="$APP_DIR/backups"
 DATE=\$(date +%Y%m%d_%H%M%S)
 BACKUP_FILE="goodtube_backup_\$DATE.tar.gz"
 
 echo "Creating backup: \$BACKUP_FILE"
 
-# Create backup
-tar -czf "\$BACKUP_DIR/\$BACKUP_FILE" \\
-    --exclude="backups" \\
-    --exclude="venv" \\
-    --exclude="logs" \\
-    -C "$APP_DIR" .
+tar -czf "\$BACKUP_DIR/\$BACKUP_FILE" --exclude="backups" --exclude="venv" --exclude="logs" -C "$APP_DIR" .
 
-# Keep only last 7 backups
 cd "\$BACKUP_DIR"
 ls -t goodtube_backup_*.tar.gz | tail -n +8 | xargs -r rm
 
