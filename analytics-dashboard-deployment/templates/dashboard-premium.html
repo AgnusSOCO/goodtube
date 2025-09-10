@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoodTube Pro Analytics - Premium Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/dashboard-premium.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/date-fns@2.29.3/index.min.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-container">
+                    <div class="logo-icon">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2"/>
+                            <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2"/>
+                            <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <div class="logo-text">
+                        <h1 class="logo-title">GoodTube Pro</h1>
+                        <span class="logo-subtitle">Analytics Dashboard</span>
+                    </div>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul class="nav-list">
+                    <li class="nav-item active">
+                        <a href="#overview" class="nav-link" data-section="overview">
+                            <div class="nav-icon">
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="3" y="3" width="7" height="7" stroke="currentColor" stroke-width="2"/>
+                                    <rect x="14" y="3" width="7" height="7" stroke="currentColor" stroke-width="2"/>
+                                    <rect x="14" y="14" width="7" height="7" stroke="currentColor" stroke-width="2"/>
+                                    <rect x="3" y="14" width="7" height="7" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </div>
+                            <span class="nav-text">Overview</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#users" class="nav-link" data-section="users">
+                            <div class="nav-icon">
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 21V19C20 17.9391 19.5786 16.9217 18.8284 16.1716C18.0783 15.4214 17.0609 15 16 15H8C6.93913 15 5.92172 15.4214 5.17157 16.1716C4.42143 16.9217 4 17.9391 4 19V21" stroke="currentColor" stroke-width="2"/>
+                                    <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </div>
+                            <span class="nav-text">Users</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#activity" class="nav-link" data-section="activity">
+                            <div class="nav-icon">
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <polyline points="22,12 18,12 15,21 9,3 6,12 2,12" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </div>
+                            <span class="nav-text">Activity</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#screenshots" class="nav-link" data-section="screenshots">
+                            <div class="nav-icon">
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2" stroke="currentColor" stroke-width="2"/>
+                                    <circle cx="8.5" cy="8.5" r="1.5" stroke="currentColor" stroke-width="2"/>
+                                    <polyline points="21,15 16,10 5,21" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </div>
+                            <span class="nav-text">Screenshots</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#reports" class="nav-link" data-section="reports">
+                            <div class="nav-icon">
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" stroke="currentColor" stroke-width="2"/>
+                                    <polyline points="14,2 14,8 20,8" stroke="currentColor" stroke-width="2"/>
+                                    <line x1="16" y1="13" x2="8" y2="13" stroke="currentColor" stroke-width="2"/>
+                                    <line x1="16" y1="17" x2="8" y2="17" stroke="currentColor" stroke-width="2"/>
+                                    <polyline points="10,9 9,9 8,9" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </div>
+                            <span class="nav-text">Reports</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="status-indicator">
+                    <div class="status-dot active"></div>
+                    <span class="status-text">System Online</span>
+                </div>
+                <div class="version-info">
+                    <span class="version-text">v4.2.0 Premium</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="dashboard-header">
+                <div class="header-content">
+                    <div class="header-title">
+                        <h1 class="page-title">Analytics Overview</h1>
+                        <p class="page-subtitle">Real-time monitoring and insights</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="action-btn secondary" id="refreshBtn">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <polyline points="23,4 23,10 17,10" stroke="currentColor" stroke-width="2"/>
+                                <path d="M20.49 15A9 9 0 1 1 5.64 5.64L23 10" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                            <span>Refresh</span>
+                        </button>
+                        <button class="action-btn primary" id="exportBtn">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15" stroke="currentColor" stroke-width="2"/>
+                                <polyline points="7,10 12,15 17,10" stroke="currentColor" stroke-width="2"/>
+                                <line x1="12" y1="15" x2="12" y2="3" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                            <span>Export</span>
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Overview Section -->
+            <section id="overview-section" class="content-section active">
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card primary">
+                        <div class="stat-header">
+                            <div class="stat-icon">
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 21V19C20 17.9391 19.5786 16.9217 18.8284 16.1716C18.0783 15.4214 17.0609 15 16 15H8C6.93913 15 5.92172 15.4214 5.17157 16.1716C4.42143 16.9217 4 17.9391 4 19V21" stroke="currentColor" stroke-width="2"/>
+                                    <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </div>
+                            <div class="stat-trend positive">
+                                <span class="trend-icon">↗</span>
+                                <span class="trend-value">+12%</span>
+                            </div>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="totalUsers">0</div>
+                            <div class="stat-label">Total Users</div>
+                            <div class="stat-description">Active monitoring sessions</div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card secondary">
+                        <div class="stat-header">
+                            <div class="stat-icon">
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <polyline points="22,12 18,12 15,21 9,3 6,12 2,12" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </div>
+                            <div class="stat-trend positive">
+                                <span class="trend-icon">↗</span>
+                                <span class="trend-value">+8%</span>
+                            </div>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="totalEvents">0</div>
+                            <div class="stat-label">Total Events</div>
+                            <div class="stat-description">Tracked user interactions</div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card tertiary">
+                        <div class="stat-header">
+                            <div class="stat-icon">
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2" stroke="currentColor" stroke-width="2"/>
+                                    <circle cx="8.5" cy="8.5" r="1.5" stroke="currentColor" stroke-width="2"/>
+                                    <polyline points="21,15 16,10 5,21" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </div>
+                            <div class="stat-trend neutral">
+                                <span class="trend-icon">→</span>
+                                <span class="trend-value">0%</span>
+                            </div>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="totalScreenshots">0</div>
+                            <div class="stat-label">Screenshots</div>
+                            <div class="stat-description">Captured screen images</div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card quaternary">
+                        <div class="stat-header">
+                            <div class="stat-icon">
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </div>
+                            <div class="stat-trend positive">
+                                <span class="trend-icon">↗</span>
+                                <span class="trend-value">+15%</span>
+                            </div>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="activeSessions">0</div>
+                            <div class="stat-label">Active Sessions</div>
+                            <div class="stat-description">Currently online users</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Grid -->
+                <div class="charts-grid">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3 class="chart-title">Activity Timeline</h3>
+                            <div class="chart-controls">
+                                <select class="time-filter" id="timeFilter">
+                                    <option value="1h">Last Hour</option>
+                                    <option value="24h" selected>Last 24 Hours</option>
+                                    <option value="7d">Last 7 Days</option>
+                                    <option value="30d">Last 30 Days</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="activityChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3 class="chart-title">User Distribution</h3>
+                            <div class="chart-legend">
+                                <div class="legend-item">
+                                    <div class="legend-color primary"></div>
+                                    <span>Active</span>
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-color secondary"></div>
+                                    <span>Idle</span>
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-color tertiary"></div>
+                                    <span>Offline</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="userChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="activity-feed">
+                    <div class="feed-header">
+                        <h3 class="feed-title">Recent Activity</h3>
+                        <button class="feed-refresh" id="activityRefresh">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <polyline points="23,4 23,10 17,10" stroke="currentColor" stroke-width="2"/>
+                                <path d="M20.49 15A9 9 0 1 1 5.64 5.64L23 10" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="feed-content" id="activityFeed">
+                        <!-- Activity items will be populated by JavaScript -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Users Section -->
+            <section id="users-section" class="content-section">
+                <div class="section-header">
+                    <h2 class="section-title">User Management</h2>
+                    <div class="section-actions">
+                        <div class="search-box">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/>
+                                <path d="M21 21L16.65 16.65" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                            <input type="text" placeholder="Search users..." id="userSearch">
+                        </div>
+                    </div>
+                </div>
+                <div class="users-grid" id="usersGrid">
+                    <!-- User cards will be populated by JavaScript -->
+                </div>
+            </section>
+
+            <!-- Activity Section -->
+            <section id="activity-section" class="content-section">
+                <div class="section-header">
+                    <h2 class="section-title">Activity Monitoring</h2>
+                    <div class="section-actions">
+                        <div class="filter-group">
+                            <select class="filter-select" id="eventTypeFilter">
+                                <option value="">All Events</option>
+                                <option value="keystroke">Keystrokes</option>
+                                <option value="click">Clicks</option>
+                                <option value="navigation">Navigation</option>
+                                <option value="scroll">Scrolling</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="activity-table-container">
+                    <table class="activity-table" id="activityTable">
+                        <thead>
+                            <tr>
+                                <th>Time</th>
+                                <th>User</th>
+                                <th>Event Type</th>
+                                <th>Details</th>
+                                <th>URL</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="activityTableBody">
+                            <!-- Activity rows will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Screenshots Section -->
+            <section id="screenshots-section" class="content-section">
+                <div class="section-header">
+                    <h2 class="section-title">Screenshot Gallery</h2>
+                    <div class="section-actions">
+                        <div class="view-toggle">
+                            <button class="toggle-btn active" data-view="grid">
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="3" y="3" width="7" height="7" stroke="currentColor" stroke-width="2"/>
+                                    <rect x="14" y="3" width="7" height="7" stroke="currentColor" stroke-width="2"/>
+                                    <rect x="14" y="14" width="7" height="7" stroke="currentColor" stroke-width="2"/>
+                                    <rect x="3" y="14" width="7" height="7" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </button>
+                            <button class="toggle-btn" data-view="list">
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <line x1="8" y1="6" x2="21" y2="6" stroke="currentColor" stroke-width="2"/>
+                                    <line x1="8" y1="12" x2="21" y2="12" stroke="currentColor" stroke-width="2"/>
+                                    <line x1="8" y1="18" x2="21" y2="18" stroke="currentColor" stroke-width="2"/>
+                                    <line x1="3" y1="6" x2="3.01" y2="6" stroke="currentColor" stroke-width="2"/>
+                                    <line x1="3" y1="12" x2="3.01" y2="12" stroke="currentColor" stroke-width="2"/>
+                                    <line x1="3" y1="18" x2="3.01" y2="18" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="screenshots-grid" id="screenshotsGrid">
+                    <!-- Screenshot items will be populated by JavaScript -->
+                </div>
+            </section>
+
+            <!-- Reports Section -->
+            <section id="reports-section" class="content-section">
+                <div class="section-header">
+                    <h2 class="section-title">Analytics Reports</h2>
+                    <div class="section-actions">
+                        <button class="action-btn primary" id="generateReportBtn">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" stroke="currentColor" stroke-width="2"/>
+                                <polyline points="14,2 14,8 20,8" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                            <span>Generate Report</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="reports-grid">
+                    <div class="report-card">
+                        <div class="report-icon">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <polyline points="22,12 18,12 15,21 9,3 6,12 2,12" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                        </div>
+                        <div class="report-content">
+                            <h3 class="report-title">Activity Summary</h3>
+                            <p class="report-description">Comprehensive overview of user activity patterns</p>
+                            <button class="report-btn">Generate</button>
+                        </div>
+                    </div>
+
+                    <div class="report-card">
+                        <div class="report-icon">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M20 21V19C20 17.9391 19.5786 16.9217 18.8284 16.1716C18.0783 15.4214 17.0609 15 16 15H8C6.93913 15 5.92172 15.4214 5.17157 16.1716C4.42143 16.9217 4 17.9391 4 19V21" stroke="currentColor" stroke-width="2"/>
+                                <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                        </div>
+                        <div class="report-content">
+                            <h3 class="report-title">User Behavior</h3>
+                            <p class="report-description">Detailed analysis of individual user patterns</p>
+                            <button class="report-btn">Generate</button>
+                        </div>
+                    </div>
+
+                    <div class="report-card">
+                        <div class="report-icon">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                                <polyline points="12,6 12,12 16,14" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                        </div>
+                        <div class="report-content">
+                            <h3 class="report-title">Time Analysis</h3>
+                            <p class="report-description">Time-based productivity and usage metrics</p>
+                            <button class="report-btn">Generate</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner">
+            <div class="spinner-ring"></div>
+            <div class="spinner-ring"></div>
+            <div class="spinner-ring"></div>
+        </div>
+        <span class="loading-text">Loading analytics data...</span>
+    </div>
+
+    <!-- Notification Toast -->
+    <div class="notification-toast" id="notificationToast">
+        <div class="toast-icon">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <polyline points="20,6 9,17 4,12" stroke="currentColor" stroke-width="2"/>
+            </svg>
+        </div>
+        <div class="toast-content">
+            <div class="toast-title">Success</div>
+            <div class="toast-message">Data refreshed successfully</div>
+        </div>
+        <button class="toast-close">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <line x1="18" y1="6" x2="6" y2="18" stroke="currentColor" stroke-width="2"/>
+                <line x1="6" y1="6" x2="18" y2="18" stroke="currentColor" stroke-width="2"/>
+            </svg>
+        </button>
+    </div>
+
+    <!-- Modal Overlay -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">Modal Title</h3>
+                <button class="modal-close" id="modalClose">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <line x1="18" y1="6" x2="6" y2="18" stroke="currentColor" stroke-width="2"/>
+                        <line x1="6" y1="6" x2="18" y2="18" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Modal content will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/dashboard-premium.js"></script>
+</body>
+</html>
+
