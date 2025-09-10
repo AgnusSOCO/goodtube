@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoodTube Pro</title>
+    <link rel="stylesheet" href="popup-premium.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="popup-container">
+        <!-- Header Section -->
+        <header class="popup-header">
+            <div class="brand-section">
+                <div class="logo-container">
+                    <div class="logo-icon">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <div class="brand-text">
+                        <h1 class="brand-name">GoodTube Pro</h1>
+                        <span class="brand-tagline">Premium Protection</span>
+                    </div>
+                </div>
+                <div class="status-indicator">
+                    <div class="status-dot active"></div>
+                    <span class="status-text">Active</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Stats Dashboard -->
+        <section class="stats-dashboard">
+            <div class="stats-grid">
+                <div class="stat-card primary">
+                    <div class="stat-icon">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="adsBlocked">0</div>
+                        <div class="stat-label">Ads Blocked</div>
+                    </div>
+                    <div class="stat-trend positive">
+                        <span class="trend-icon">↗</span>
+                        <span class="trend-value">+12%</span>
+                    </div>
+                </div>
+
+                <div class="stat-card secondary">
+                    <div class="stat-icon">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                            <polyline points="12,6 12,12 16,14" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="timeSaved">0m</div>
+                        <div class="stat-label">Time Saved</div>
+                    </div>
+                    <div class="stat-trend positive">
+                        <span class="trend-icon">↗</span>
+                        <span class="trend-value">+8%</span>
+                    </div>
+                </div>
+
+                <div class="stat-card tertiary">
+                    <div class="stat-icon">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="sessionsCount">1</div>
+                        <div class="stat-label">Sessions</div>
+                    </div>
+                    <div class="stat-trend neutral">
+                        <span class="trend-icon">→</span>
+                        <span class="trend-value">0%</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick Actions -->
+        <section class="quick-actions">
+            <div class="action-buttons">
+                <button class="action-btn primary" id="manualBlockBtn">
+                    <div class="btn-icon">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                            <line x1="4.93" y1="4.93" x2="19.07" y2="19.07" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <span class="btn-text">Block Now</span>
+                    <div class="btn-ripple"></div>
+                </button>
+
+                <button class="action-btn secondary" id="refreshPageBtn">
+                    <div class="btn-icon">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <polyline points="23,4 23,10 17,10" stroke="currentColor" stroke-width="2"/>
+                            <path d="M20.49 15A9 9 0 1 1 5.64 5.64L23 10" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <span class="btn-text">Refresh</span>
+                    <div class="btn-ripple"></div>
+                </button>
+            </div>
+        </section>
+
+        <!-- Settings Panel -->
+        <section class="settings-panel">
+            <div class="panel-header">
+                <h3 class="panel-title">Protection Settings</h3>
+                <button class="panel-toggle" id="settingsToggle">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="panel-content" id="settingsContent">
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <label class="setting-label">Ad Blocking</label>
+                        <span class="setting-description">Block all advertisements</span>
+                    </div>
+                    <div class="toggle-switch">
+                        <input type="checkbox" id="adBlockingToggle" checked>
+                        <label for="adBlockingToggle" class="toggle-label">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <label class="setting-label">Auto-Skip Ads</label>
+                        <span class="setting-description">Automatically skip video ads</span>
+                    </div>
+                    <div class="toggle-switch">
+                        <input type="checkbox" id="autoSkipToggle" checked>
+                        <label for="autoSkipToggle" class="toggle-label">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <label class="setting-label">Hide Shorts</label>
+                        <span class="setting-description">Remove YouTube Shorts</span>
+                    </div>
+                    <div class="toggle-switch">
+                        <input type="checkbox" id="hideShortsToggle">
+                        <label for="hideShortsToggle" class="toggle-label">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <label class="setting-label">Analytics</label>
+                        <span class="setting-description">Track usage statistics</span>
+                    </div>
+                    <div class="toggle-switch">
+                        <input type="checkbox" id="analyticsToggle" checked>
+                        <label for="analyticsToggle" class="toggle-label">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="popup-footer">
+            <div class="footer-actions">
+                <button class="footer-btn" id="dashboardBtn">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="3" y="3" width="7" height="7" stroke="currentColor" stroke-width="2"/>
+                        <rect x="14" y="3" width="7" height="7" stroke="currentColor" stroke-width="2"/>
+                        <rect x="14" y="14" width="7" height="7" stroke="currentColor" stroke-width="2"/>
+                        <rect x="3" y="14" width="7" height="7" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                    <span>Dashboard</span>
+                </button>
+                
+                <button class="footer-btn" id="helpBtn">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                        <path d="M9.09 9A3 3 0 0 1 12 6C13.66 6 15 7.34 15 9C15 10.66 13.66 12 12 12" stroke="currentColor" stroke-width="2"/>
+                        <line x1="12" y1="17" x2="12.01" y2="17" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                    <span>Help</span>
+                </button>
+            </div>
+            
+            <div class="version-info">
+                <span class="version-text">v4.2.0 Premium</span>
+            </div>
+        </footer>
+
+        <!-- Loading Overlay -->
+        <div class="loading-overlay" id="loadingOverlay">
+            <div class="loading-spinner">
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
+            </div>
+            <span class="loading-text">Optimizing protection...</span>
+        </div>
+
+        <!-- Notification Toast -->
+        <div class="notification-toast" id="notificationToast">
+            <div class="toast-icon">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <polyline points="20,6 9,17 4,12" stroke="currentColor" stroke-width="2"/>
+                </svg>
+            </div>
+            <div class="toast-content">
+                <div class="toast-title">Success</div>
+                <div class="toast-message">Settings updated successfully</div>
+            </div>
+            <button class="toast-close">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <line x1="18" y1="6" x2="6" y2="18" stroke="currentColor" stroke-width="2"/>
+                    <line x1="6" y1="6" x2="18" y2="18" stroke="currentColor" stroke-width="2"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <script src="popup-premium.js"></script>
+</body>
+</html>
+

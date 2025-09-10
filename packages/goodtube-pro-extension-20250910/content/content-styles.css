@@ -1,0 +1,244 @@
+/* GoodTube Pro Content Styles - Injected into YouTube */
+
+/* Core hiding utility */
+.goodtube-hidden {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    height: 0 !important;
+    width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+}
+
+/* Ad blocking selectors */
+.ytp-ad-module,
+.ytp-ad-overlay-container,
+.ytp-ad-text-overlay,
+.ytp-ad-player-overlay,
+.video-ads,
+.ytp-ad-image-overlay,
+#player-ads,
+.ytd-display-ad-renderer,
+.ytd-promoted-sparkles-web-renderer,
+.ytd-ad-slot-renderer,
+.ytd-banner-promo-renderer,
+.ytd-statement-banner-renderer,
+.masthead-ad,
+.ytd-promoted-video-renderer,
+[data-ad-slot-id] {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+}
+
+/* YouTube Shorts hiding */
+ytd-rich-section-renderer[is-shorts],
+ytd-reel-shelf-renderer,
+ytd-shorts,
+[aria-label*="Shorts"],
+[title*="Shorts"],
+ytd-guide-entry-renderer:has([title="Shorts"]),
+ytd-mini-guide-entry-renderer:has([aria-label="Shorts"]),
+#shorts-container,
+.ytd-rich-shelf-renderer:has([aria-label*="Shorts"]) {
+    display: none !important;
+}
+
+/* Enhanced notification system */
+.goodtube-notification {
+    position: fixed !important;
+    top: 20px !important;
+    right: 20px !important;
+    background: linear-gradient(135deg, #8B5CF6, #EC4899) !important;
+    color: white !important;
+    padding: 12px 20px !important;
+    border-radius: 12px !important;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    box-shadow: 0 10px 25px rgba(139, 92, 246, 0.3) !important;
+    z-index: 10000 !important;
+    animation: goodtube-slide-in 0.3s ease-out !important;
+    backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    max-width: 300px !important;
+    word-wrap: break-word !important;
+}
+
+@keyframes goodtube-slide-in {
+    from {
+        opacity: 0;
+        transform: translateX(100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.goodtube-notification.fade-out {
+    animation: goodtube-fade-out 0.3s ease-out forwards !important;
+}
+
+@keyframes goodtube-fade-out {
+    to {
+        opacity: 0;
+        transform: translateX(100px);
+    }
+}
+
+/* Performance mode optimizations */
+.goodtube-performance-mode * {
+    animation-duration: 0.1s !important;
+    transition-duration: 0.1s !important;
+}
+
+.goodtube-performance-mode .ytp-spinner,
+.goodtube-performance-mode .ytp-spinner-container {
+    display: none !important;
+}
+
+/* Enhanced video player - NON-INVASIVE VERSION */
+.goodtube-enhanced-player {
+    position: relative !important;
+}
+
+/* REMOVED INVASIVE OVERLAY - No more "Protected by GoodTube Pro" message */
+
+/* Hide specific YouTube ad containers */
+ytd-companion-slot-renderer,
+ytd-action-companion-ad-renderer,
+ytd-display-ad-renderer,
+ytd-promoted-sparkles-text-search-renderer,
+ytd-search-pyv-renderer,
+ytd-promoted-video-renderer,
+.ytd-search-pyv-renderer,
+.ytd-promoted-sparkles-web-renderer {
+    display: none !important;
+}
+
+/* Hide masthead ads */
+#masthead-ad,
+.masthead-ad-control,
+.masthead-ad {
+    display: none !important;
+}
+
+/* Hide overlay ads */
+.ytp-ad-overlay-container,
+.ytp-ad-text-overlay,
+.ytp-ad-overlay-slot,
+.ytp-ad-overlay-image {
+    display: none !important;
+}
+
+/* Hide video info cards that are ads */
+.ytp-cards-teaser[aria-label*="Ad"],
+.ytp-cards-teaser[aria-label*="Sponsored"],
+.annotation[data-type="promotion"] {
+    display: none !important;
+}
+
+/* Clean up sidebar ads */
+#secondary ytd-display-ad-renderer,
+#secondary .ytd-display-ad-renderer,
+#related ytd-display-ad-renderer,
+#related .ytd-display-ad-renderer {
+    display: none !important;
+}
+
+/* Hide promoted content in search */
+.ytd-promoted-sparkles-text-search-renderer,
+.ytd-promoted-sparkles-web-renderer,
+ytd-promoted-sparkles-text-search-renderer,
+ytd-promoted-sparkles-web-renderer {
+    display: none !important;
+}
+
+/* Hide channel promotion ads */
+.ytd-channel-renderer[is-advertisement],
+ytd-channel-renderer[is-advertisement] {
+    display: none !important;
+}
+
+/* Smooth transitions for hidden elements */
+.goodtube-hidden {
+    transition: opacity 0.2s ease, height 0.2s ease !important;
+}
+
+/* Custom scrollbar for better aesthetics */
+::-webkit-scrollbar {
+    width: 8px !important;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-radius: 4px !important;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #8B5CF6, #EC4899) !important;
+    border-radius: 4px !important;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #7C3AED, #DB2777) !important;
+}
+
+/* Enhanced focus states for accessibility */
+.goodtube-enhanced-player:focus-within {
+    outline: 2px solid #8B5CF6 !important;
+    outline-offset: 2px !important;
+}
+
+/* Hide specific ad-related attributes */
+[data-ad-slot-id],
+[data-google-av-cxn],
+[data-google-av-cpmav],
+[data-google-av-adk] {
+    display: none !important;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+    .goodtube-notification {
+        top: 10px !important;
+        right: 10px !important;
+        left: 10px !important;
+        max-width: none !important;
+        font-size: 13px !important;
+        padding: 10px 16px !important;
+    }
+}
+
+/* Dark mode enhancements */
+@media (prefers-color-scheme: dark) {
+    .goodtube-notification {
+        box-shadow: 0 10px 25px rgba(139, 92, 246, 0.4) !important;
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .goodtube-notification {
+        border: 2px solid white !important;
+        background: #8B5CF6 !important;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .goodtube-notification,
+    .goodtube-notification.fade-out {
+        animation: none !important;
+        transition: none !important;
+    }
+    
+    .goodtube-performance-mode * {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
